@@ -5,11 +5,10 @@ function round_place(num, place) {
 }
 
 function GetCityWeather(coord) {
-    debug = [];
-    debug.push("name = " + coord.name);
-    debug.push("lat = " + coord.lat);
-    debug.push("lng = " + coord.lng);
-    alert(debug.join("\n"))
+    $.getJSON("/api/weather", coord)
+        .done(function(data) {
+            alert(JSON.stringify(data));
+        });
 }
 
 function RemoveCountryName(name) {

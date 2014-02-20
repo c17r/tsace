@@ -5,4 +5,5 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     url(r"^$", 'homepage.views.index', name="homepage"),
+    url(r"^api/", include("api.urls")),
 )
