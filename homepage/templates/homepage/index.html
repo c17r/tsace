@@ -4,6 +4,9 @@
 <head>
     <title>My Weather App</title>
     <link rel="stylesheet" href="{% static 'homepage/css/weather.css' %}"/>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
 </head>
 <body>
 <div id="weather-c">
@@ -20,5 +23,8 @@
 
     </div>
 </div>
+
+<script type="text/javascript" src="{% static 'homepage/js/weather-lib.js' %}"></script>
+<script type="text/javascript" src="{% static 'homepage/js/weather.js' %}"></script>
 </body>
 </html>
