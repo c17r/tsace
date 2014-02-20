@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Weather App</title>
+    <link rel="stylesheet" href="{% static 'homepage/css/weather.css' %}"/>
+</head>
+<body>
+<div id="weather-c">
+    <div id="my-weather-c">
+        <div id="search-c">
+            <form>
+                <input id="city_name" type="text" placeholder="Enter a City"> <input id="city_search" type="submit" value="search">
+            </form>
+        </div>
+        <div id="current-c"></div>
+        <div id="saved-c"></div>
+    </div>
+    <div id="recent-searches-c">
+
+    </div>
+</div>
+</body>
+</html>
