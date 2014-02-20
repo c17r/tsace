@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$/homepage/templates/homepage/index.html" libraries="{JSXTransformer-0.9.0, jquery-1.10.2, react-0.9.0}" />
+  </component>
+</project>
+

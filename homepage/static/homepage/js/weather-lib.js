@@ -4,11 +4,15 @@ function round_place(num, place) {
     return Math.round(num * p)/p;
 }
 
-function GetCityWeather(coord) {
-    $.getJSON("/api/weather", coord)
-        .done(function(data) {
-            alert(JSON.stringify(data));
-        });
+function GetSearchWeather(coord) {
+    $.getJSON("/api/weather", coord).done(DisplaySearchWeather)
+}
+
+function DisplaySearchWeather(data) {
+    React.renderComponent(
+        SearchResults(data),
+        document.getElementById("search-c")
+    )
 }
 
 function RemoveCountryName(name) {
