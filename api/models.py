@@ -19,9 +19,9 @@ class Weather(object):
             "name": name,
             "tz_offset": current["tz_offset"],
             "temp": {
-                "current": current["current"],
-                "high": current["high"],
-                "low": current["low"],
+                "current": round(current["current"]),
+                "high": round(current["high"]),
+                "low": round(current["low"]),
                 "icon": current["icon"],
             },
             "comments": [],

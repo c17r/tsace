@@ -29,7 +29,7 @@ class ForecastIO(object):
         data = r.json()
 
         return {
-            "tz_offset": ForecastIO._get_value(data, ["offset"]),
+            "tz_offset": ForecastIO._get_value(data, ["timezone"]),
             "icon": ForecastIO._get_value(data, ["currently", "icon"]),
             "current": ForecastIO._get_value(data,
                                              ["currently", "temperature"]),

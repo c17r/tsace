@@ -47,3 +47,13 @@ function CitiesDropdown($input, cityChangedFunc) {
     var autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
     google.maps.event.addListener(autocomplete, "place_changed", inner_callback);
 }
+
+function HandleTime() {
+    $("[data-tz-offset]").each(function(i) {
+        var tz = $(this).attr("data-tz-offset");
+        var time = moment().tz(tz).format("hh:mm a DD-MMM");
+        this.innerHTML = time;
+    })
+
+    setTimeout(HandleTime, 500);
+}

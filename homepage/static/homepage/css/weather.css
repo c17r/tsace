@@ -1,4 +1,22 @@
 
-#city_name {
-    width: 300px;
+body { font-size: 62.5%; }
+
+#form-c form input { font-size: 1.6em; }
+#form-c form input#city_name { width: 300px; }
+
+#search-result { 
+    border: 1px solid #000;
+    font-size: 1.6em;
+}
+#search-result td {
+    padding: 10px
+}
+#search-result #name { 
+    font-weight: bold; 
+}
+#search-result #current {
+    font-size: 2em;
+}
+#search-result #high, #search-result #low {
+    font-size: .8em;
 }
