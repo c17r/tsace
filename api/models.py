@@ -1,41 +1,34 @@
 from datetime import datetime, timedelta
-from django.conf import settings
-import requests
+from FireBase import FireBase
+from ForecastIO import ForecastIO
 
-
-class ForecastIO(object):
-
-    @staticmethod
-    def _get_value(haystack, needles, missing_value=None):
-        try:
-            ptr = haystack
-            for needle in needles[:-1]:
-                ptr = ptr[needle]
-            return ptr[needles[-1]]
-        except (KeyError, IndexError):
-            return missing_value
+class Weather(object):
 
     @staticmethod
-    def get_weather(lat, lng):
-        url = "https://api.forecast.io/forecast/%s/%s,%s" % (
-            settings.FORECAST_IO_KEY,
-            lat,
-            lng
-        )
+    def get_weather(lat, lng, name):
 
-        r = requests.get(url, params={
-            "units": "us",
-            "exclude": "minutely,hourly,alerts,flags"
-        })
-        data = r.json()
+        data = FireBase.get_weather(lat, lng)
+        if data:
+            utc = datetime.utcnow()
+            if FireBase.epoch_to_date(data["expires"]) > utc:
+                return data
+        data = data or {}
 
-        return {
-            "tz_offset": ForecastIO._get_value(data, ["offset"]),
-            "icon": ForecastIO._get_value(data, ["currently", "icon"]),
-            "current": ForecastIO._get_value(data,
-                                             ["currently", "temperature"]),
-            "high": ForecastIO._get_value(data,
-                                          ["daily", "data", 0, "temperatureMax"]),
-            "low": ForecastIO._get_value(data,
-                                         ["daily", "data", 0, "temperatureMin"])
+        current = ForecastIO.get_weather(lat, lng)
+        new = {
+            "name": name,
+            "tz_offset": current["tz_offset"],
+            "temp": {
+                "current": current["current"],
+                "high": current["high"],
+                "low": current["low"],
+                "icon": current["icon"],
+            },
+            "comments": [],
+            "expires": FireBase.date_to_epoch((datetime.utcnow() +
+                                               timedelta(minutes=15))),
+            "watchers": data.get("watchers", 0)
         }
+        result = FireBase.put_weather(lat, lng, new)
+
+        return new
