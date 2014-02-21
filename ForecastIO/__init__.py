@@ -1,1 +1,1 @@
-from models import ForecastIO
+from forecastio import *

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ForecastIO.models import ForecastIO
+import forecastio
 
 
 class ForecastIOTests(TestCase):
@@ -31,7 +31,7 @@ class ForecastIOTests(TestCase):
         TestCase.__init__(self, *args, **kwargs)
 
     def get(self, needles):
-        return ForecastIO._get_value(
+        return forecastio._get_value(
             self.json_test_data,
             needles
         )
@@ -70,17 +70,17 @@ class ForecastIOTests(TestCase):
     def test_json_optional_param(self):
 
         self.assertEqual(
-            ForecastIO._get_value(self.json_test_data, ["list", 0, "blah"]),
+            forecastio._get_value(self.json_test_data, ["list", 0, "blah"]),
             None
         )
 
         self.assertEqual(
-            ForecastIO._get_value(self.json_test_data, ["list", 0, "blah"], 7),
+            forecastio._get_value(self.json_test_data, ["list", 0, "blah"], 7),
             7
         )
 
         self.assertEqual(
-            ForecastIO._get_value(
+            forecastio._get_value(
                 self.json_test_data,
                 ["list", 0, "blah"], "hi"
             ),
@@ -90,7 +90,7 @@ class ForecastIOTests(TestCase):
     def test_api(self):
 
         # Danbury, CT
-        data = ForecastIO.get_weather(41.4022, -73.4711)
+        data = forecastio.get_weather(41.4022, -73.4711)
         self.assertEqual(data["tz_offset"], -5)
         self.assertTrue(data["icon"])
         self.assertTrue(data["current"])
@@ -98,7 +98,7 @@ class ForecastIOTests(TestCase):
         self.assertTrue(data["low"])
 
         # Los Angeles, CA
-        data = ForecastIO.get_weather(34.05, -118.25)
+        data = forecastio.get_weather(34.05, -118.25)
         self.assertEqual(data["tz_offset"], -8)
         self.assertTrue(data["icon"])
         self.assertTrue(data["current"])

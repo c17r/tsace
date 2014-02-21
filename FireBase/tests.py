@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from django.test import TestCase
-from django.conf import settings
-from models import FireBase
+import firebase
 
 
 class FireBaseTests(TestCase):
@@ -18,14 +17,14 @@ class FireBaseTests(TestCase):
                 "low": -97
             },
             "comments": [],
-            "expires": FireBase.date_to_epoch(expiration),
+            "expires": firebase.date_to_epoch(expiration),
             "watchers": -96
         }
 
-        result = FireBase.put_weather(-99.63, -99.31, test)
+        result = firebase.put_weather(-99.63, -99.31, test)
         self.assertTrue(result)
 
-        data = FireBase.get_weather(-99, -99)
+        data = firebase.get_weather(-99, -99)
         self.assertEqual(data["name"], test["name"])
         self.assertEqual(data["tz_offset"], test["tz_offset"])
         self.assertEqual(data["expires"], test["expires"])

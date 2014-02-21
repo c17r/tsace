@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 from django.test import TestCase
-from models import Weather
-from FireBase import FireBase
+import api
+import FireBase
+
 
 class APITest(TestCase):
 
@@ -23,7 +24,7 @@ class APITest(TestCase):
         result = FireBase.put_weather(-98, -98, test)
         self.assertTrue(result)
 
-        data = Weather.get_weather(-98, -98, test["name"])
+        data = api.get_weather(-98, -98, test["name"])
         self.assertEqual(data["name"], test["name"])
         self.assertEqual(data["tz_offset"], test["tz_offset"])
         self.assertEqual(data["expires"], test["expires"])
@@ -31,5 +32,3 @@ class APITest(TestCase):
         self.assertEqual(data["temp"]["current"], test["temp"]["current"])
         self.assertEqual(data["temp"]["high"], test["temp"]["high"])
         self.assertEqual(data["temp"]["low"], test["temp"]["low"])
-
-

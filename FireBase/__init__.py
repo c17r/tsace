@@ -1,1 +1,1 @@
-from models import FireBase
+from firebase import *
