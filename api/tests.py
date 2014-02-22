@@ -170,3 +170,13 @@ class APITest(TestCase):
                 self.assertIn(place, data["places"])
             else:
                 self.assertNotIn(place, data["places"])
+
+    def test_f_to_c_1(self):
+        f = 32
+        c = api._f_to_c(f)
+        self.assertEqual(c, 0)
+
+    def test_f_to_c_2(self):
+        f = 212
+        c = api._f_to_c(f)
+        self.assertEqual(c, 100)

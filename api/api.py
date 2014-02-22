@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Main Weather API functionality, used by both front-end generation and API calls
 
@@ -21,6 +22,17 @@ class MissingUserError(Exception):
     """
     pass
 
+def _f_to_c(f):
+    """
+    Converts temperature in Fahrenheit to Celsius
+
+    Args:
+    f (real) -- Fahrenheit
+
+    Returns:
+    real -- Celsius
+    """
+    return (f-32)*5.0/9.0
 
 def _create_weather_key(lat, lng):
     """
@@ -135,6 +147,20 @@ def fresh_weather(lat, lng, name, stale=None):
         watchers = stale.get("watchers", 0)
 
     current = ForecastIO.get_weather(lat, lng)
+
+    current_f = round(current["current"])
+    current_c = round(_f_to_c(current_f))
+    current_s = "%d°F/%d°C" % (current_f, current_c)
+
+    high_f = round(current["high"])
+    high_c = round(_f_to_c(high_f))
+    high_s = "%d°F/%d°C" % (high_f, high_c)
+
+
+    low_f = round(current["low"])
+    low_c = round(_f_to_c(low_f))
+    low_s = "%d°F/%d°C" % (low_f, low_c)
+
     weather = {
         "name": name,
         "key": _create_weather_key(lat, lng),
@@ -144,9 +170,9 @@ def fresh_weather(lat, lng, name, stale=None):
         },
         "tz_offset": current["tz_offset"],
         "temp": {
-            "current": round(current["current"]),
-            "high": round(current["high"]),
-            "low": round(current["low"]),
+            "current": current_s,
+            "high": high_s,
+            "low": low_s,
             "icon": current["icon"],
         },
         "comments": [],

@@ -11,19 +11,22 @@ body { font-size: 62.5%; }
 #search-result, #saved-c table { 
     border: 1px solid #000;
     font-size: 1.6em;
-    width: 500px;
+    width: 580px;
 }
 table td {
-    padding-right: 30px;
+    padding-right: 10px;
+
 }
 table td.name {
     font-weight: bold; 
 }
-td.current {
+table td.current {
     font-size: 2em;
+    text-align: center;
 }
 table td.high, table td.low {
     font-size: .8em;
+    text-align: right;
 }
 
 #saved-c table {
