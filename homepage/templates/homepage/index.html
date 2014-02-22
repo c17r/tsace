@@ -31,7 +31,7 @@
                     <table>
                         <tr>
                             <td class="name" colspan="3">{{ city.name }}</td>
-                            <td class="high">{{ city.temp.high|floatformat:0 }}</td>
+                            <td class="high">H: {{ city.temp.high|floatformat:0 }}&deg;</td>
                             <td class="remove" rowspan="2">
                                 <form class="remove-city" action="" method="POST">
                                     {% csrf_token %}
@@ -42,9 +42,9 @@
                         </tr>
                         <tr>
                             <td class="time"><span data-tz-offset="{{ city.tz_offset }}"></span></td>
-                            <td class="current">{{ city.temp.current|floatformat:0 }}</td>
+                            <td class="current">{{ city.temp.current|floatformat:0 }}&deg;</td>
                             <td class="icon"><img src="{% static 'homepage/img/'|add:city.temp.icon|add:'.png' %}"></td>
-                            <td class="low">{{ city.temp.low|floatformat:0 }}</td>
+                            <td class="low">L: {{ city.temp.low|floatformat:0 }}&deg;</td>
                         </tr>
                     </table>
                 {% endfor %}
