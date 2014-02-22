@@ -50,8 +50,21 @@ def get_weather(lat, lng):
     Returns:
     None or Dict
     """
-    url = "%s/weather/%s.json" % (settings.FIREBASE_URL,
-                                  _create_weather_key(lat, lng))
+    key = _create_weather_key(lat, lng)
+    return get_weather_by_key(key)
+
+
+def get_weather_by_key(key):
+    """
+    Returns weather information for a given database key
+
+    Args:
+    key (string) -- database key for weather information
+
+    Returns:
+    None or Dict
+    """
+    url = "%s/weather/%s.json" % (settings.FIREBASE_URL, key)
 
     r = requests.get(url)
     if r.status_code != 200:
@@ -74,6 +87,51 @@ def put_weather(lat, lng, data):
     """
     url = "%s/weather/%s.json" % (settings.FIREBASE_URL,
                                   _create_weather_key(lat, lng))
+    payload = json.dumps(data)
+
+    r = requests.put(url, data=payload)
+
+    return r.status_code == 200
+
+
+def get_user(uid):
+    """
+    Returns user information for a given user id
+
+    Args:
+    uid (string) -- user's key
+
+    Returns:
+    None or Dict
+    """
+    url = "%s/users/%s.json" % (settings.FIREBASE_URL, uid)
+
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+
+    user = r.json()
+
+    # to deal w/ FireBase not keeping empty keys
+    if user and "places" not in user:
+        user["places"] = []
+
+    return user
+
+
+def put_user(uid, data):
+    """
+    Stores user information for a given uid
+
+    Args:
+    uid (string) -- user's key
+    data (Dict) -- user's full record
+
+    Returns:
+    Bool -- True if the PUT was successful
+    """
+    url = "%s/users/%s.json" % (settings.FIREBASE_URL, uid)
+
     payload = json.dumps(data)
 
     r = requests.put(url, data=payload)

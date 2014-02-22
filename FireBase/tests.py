@@ -21,10 +21,11 @@ class FireBaseTests(TestCase):
             "watchers": -96
         }
 
-        result = firebase.put_weather(-99.63, -99.31, test)
+        result = firebase.put_weather("test-fb-lat", "test-fb-lng", test)
         self.assertTrue(result)
 
-        data = firebase.get_weather(-99, -99)
+        data = firebase.get_weather("test-fb-lat", "test-fb-lng")
+        self.assertTrue(data)
         self.assertEqual(data["name"], test["name"])
         self.assertEqual(data["tz_offset"], test["tz_offset"])
         self.assertEqual(data["expires"], test["expires"])
@@ -32,3 +33,41 @@ class FireBaseTests(TestCase):
         self.assertEqual(data["temp"]["current"], test["temp"]["current"])
         self.assertEqual(data["temp"]["high"], test["temp"]["high"])
         self.assertEqual(data["temp"]["low"], test["temp"]["low"])
+
+    def test_user_1(self):
+
+        uid = "test-fb-user"
+        test = {
+            "temp_method": "F",
+            "places": [
+                "string1",
+                "string2",
+                "string3"
+            ]
+        }
+
+        result = firebase.put_user(uid, test)
+        self.assertTrue(result)
+
+        data = firebase.get_user(uid)
+        self.assertTrue(data)
+        self.assertEqual(data["temp_method"], test["temp_method"])
+        self.assertEqual(data["places"][0], test["places"][0])
+        self.assertEqual(data["places"][1], test["places"][1])
+        self.assertEqual(data["places"][2], test["places"][2])
+
+    def test_user_2(self):
+
+        uid = "test-fb-user"
+        test = {
+            "temp_method": "F",
+            "places": []
+        }
+
+        result = firebase.put_user(uid, test)
+        self.assertTrue(result)
+
+        data = firebase.get_user(uid)
+        self.assertTrue(data)
+        self.assertEqual(data["temp_method"], test["temp_method"])
+        self.assertEqual(data["places"], test["places"])

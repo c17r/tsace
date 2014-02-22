@@ -17,16 +17,55 @@
 <div id="weather-c">
     <div id="my-weather-c">
         <div id="form-c">
-            <form>
-                <input id="city_name" type="text" placeholder="Enter a City"> <input id="city_search" type="submit" value="search">
+            <form class="search-city">
+                {% csrf_token %}
+                <input id="city_name" type="text" placeholder="Enter a City">
             </form>
         </div>
         <div id="search-c"></div>
-        <div id="saved-c"></div>
+
+        <span id="saved-h">Saved Cities:</span>
+        <div id="saved-c">
+            {% if  saved_cities %}
+                {% for city in saved_cities %}
+                    <table>
+                        <tr>
+                            <td class="name" colspan="3">{{ city.name }}</td>
+                            <td class="high">{{ city.temp.high|floatformat:0 }}</td>
+                            <td class="remove" rowspan="2">
+                                <form class="remove-city" action="" method="POST">
+                                    {% csrf_token %}
+                                    <input name="key" type="hidden" value="{{ city.key }}">
+                                    <input type="image" src="{% static 'homepage/img/minus.png' %}">
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time"><span data-tz-offset="{{ city.tz_offset }}"></span></td>
+                            <td class="current">{{ city.temp.current|floatformat:0 }}</td>
+                            <td class="icon"><img src="{% static 'homepage/img/'|add:city.temp.icon|add:'.png' %}"></td>
+                            <td class="low">{{ city.temp.low|floatformat:0 }}</td>
+                        </tr>
+                    </table>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
     <div id="recent-searches-c">
 
     </div>
+</div>
+<div id="attribution">
+    Attribution:
+    <p>
+        Powered by <a href="http://www.google.com">Google</a><br/>
+        Powered by <a href="http://www.forecast.io">Forecast</a><br/>
+        Powered by <a href="http://www.firebase.com">Firebase</a><br/>
+    </p>
+    <p>
+        Weather Images by <a href="http://vclouds.deviantart.com/art/VClouds-Weather-Icons-179152045">VClouds</a><br/>
+        Icons by <a href="http://app-bits.com/">AppBits</a>
+    </p>
 </div>
 <script type="text/jsx" src="{% static 'homepage/js/weather-react.js' %}"></script>
 <script type="text/javascript" src="{% static 'homepage/js/weather-lib.js' %}"></script>

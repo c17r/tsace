@@ -91,7 +91,7 @@ class ForecastIOTests(TestCase):
 
         # Danbury, CT
         data = forecastio.get_weather(41.4022, -73.4711)
-        self.assertEqual(data["tz_offset"], -5)
+        self.assertEqual(data["tz_offset"], "America/New_York")
         self.assertTrue(data["icon"])
         self.assertTrue(data["current"])
         self.assertTrue(data["high"])
@@ -99,7 +99,7 @@ class ForecastIOTests(TestCase):
 
         # Los Angeles, CA
         data = forecastio.get_weather(34.05, -118.25)
-        self.assertEqual(data["tz_offset"], -8)
+        self.assertEqual(data["tz_offset"], "America/Los_Angeles")
         self.assertTrue(data["icon"])
         self.assertTrue(data["current"])
         self.assertTrue(data["high"])

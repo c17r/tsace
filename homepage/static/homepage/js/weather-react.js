@@ -5,14 +5,20 @@ var SearchResults = React.createClass({
        return (
            <table id="search-result">
                <tr>
-                   <td id="name">{this.props.name}</td>
-                   <td id="current" rowSpan="2">{this.props.temp.current}</td>
-                   <td id="icon" rowSpan="2"><img src={"/static/homepage/img/" + this.props.temp.icon + ".png"} /></td>
-                   <td id="high">{this.props.temp.high}</td>
+                   <td className="name" colSpan="3">{this.props.name}</td>
+                   <td className="high">{this.props.temp.high}</td>
+                   <td className="add" rowSpan="2">
+                       <form className="add-city" action="" method="POST">
+                           <input name="key" type="hidden" value={this.props.key} />
+                           <input type="image" src="/static/homepage/img/plus.png" />
+                       </form>
+                   </td>
                </tr>
                <tr>
-                   <td id="time"><span data-tz-offset={this.props.tz_offset} /></td>
-                   <td id="low">{this.props.temp.low}</td>
+                   <td className="time"><span data-tz-offset={this.props.tz_offset} /></td>
+                   <td className="current">{this.props.temp.current}</td>
+                   <td className="icon"><img src={"/static/homepage/img/" + this.props.temp.icon + ".png"} /></td>
+                   <td className="low">{this.props.temp.low}</td>
                </tr>
            </table>
            );

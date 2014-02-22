@@ -4,21 +4,20 @@ function round_place(num, place) {
     return Math.round(num * p)/p;
 }
 
-function GetSearchWeather(coord) {
-    $.getJSON("/api/weather", coord).done(DisplaySearchWeather)
+function RemoveCountryName(name) {
+    var t = name.split(", ");
+    t.pop();
+    return t.join(", ");
 }
 
 function DisplaySearchWeather(data) {
     React.renderComponent(
         SearchResults(data),
         document.getElementById("search-c")
-    )
-}
-
-function RemoveCountryName(name) {
-    var t = name.split(", ");
-    t.pop();
-    return t.join(", ");
+    );
+    $("#city_name").val("");
+    var csrf = $("form.search-city").children("input:hidden").clone();
+    $("#search-c").find("form").append(csrf);
 }
 
 function CitiesDropdown($input, cityChangedFunc) {
@@ -56,4 +55,48 @@ function HandleTime() {
     })
 
     setTimeout(HandleTime, 500);
+}
+
+function GetSearchWeather(coord) {
+    $.getJSON("/api/weather/", coord)
+        .done(DisplaySearchWeather)
+        .fail(DisplayAPIError)
+}
+
+function RemoveCity(form) {
+    $.post("/api/city/remove/", $(form).serialize())
+        .done(function(data) {
+            $table = $(form).parents("table");
+            $table.fadeOut(function() {
+                $table.remove();
+            });
+        })
+        .fail(DisplayAPIError);
+}
+
+function AddCity(form) {
+    $.post("/api/city/add/", $(form).serialize())
+        .done(function(data) {
+            $table = $(form).parents("table");
+            $table.fadeOut(function() {
+                $table.detach();
+
+                $(form).removeClass("add-city").addClass("remove-city");
+
+                var $img = $table.find("input[type=image]");
+                var src = $img.attr("src");
+                src = src.replace("plus", "minus");
+                $img.attr("src", src);
+
+                $("#saved-c").append($table);
+                $table.show();
+            })
+
+        })
+        .fail(DisplayAPIError);
+}
+
+function DisplayAPIError(xhr, textStatus, errorThrown) {
+    var msg = textStatus + "\n" + errorThrown;
+    alert(msg);
 }
