@@ -6,8 +6,9 @@ import api
 
 def index(request):
     uid = request.COOKIES.get("uid")
+    data = None
     if not uid:
-        uid, data = api.create_new_user()
+        uid, _ = api.create_new_user()
     else:
         data = api.get_saved_cities(uid)
 
