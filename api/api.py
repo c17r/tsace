@@ -60,25 +60,7 @@ def get_weather(lat, lng, name):
     name (string) -- Human readable name of the coordinate
 
     Returns
-    Dict {
-        "coords" (Dict) {
-            "latitude" (string or float) -- latitude of the coordinate
-            "longitude" (string or float) -- longitude of the coordinate
-        }
-        "expires" (float) -- UNX timestamp for when the temperature data
-            should be discarded.
-        "key" (string) -- Database key for the coordinate
-        "name" (string) -- Human readable name of the coordinate
-        "temp" (Dict) {
-            "current" (string) -- current temperature for the coordinate
-            "high" (string) -- daily high temperature for the coordinate
-            "icon" (string) -- machine readable summary of daily weather.
-                (i.e. rain, snow, partly-cloudy-day, clear-night, etc).
-            "low" (string) -- daily low temperature for the coordinate
-        }
-        "tz_offset" (string) -- Timezone for the coordinate
-        "watchers" (number) -- how many users have saved this coordinate
-    }
+    Dict of weather information (see fresh_weather())
     """
     data = FireBase.get_weather(lat, lng)
     if check_weather(data):
@@ -137,6 +119,7 @@ def fresh_weather(lat, lng, name, stale=None):
             "icon" (string) -- machine readable summary of daily weather.
                 (i.e. rain, snow, partly-cloudy-day, clear-night, etc).
             "low" (string) -- daily low temperature for the coordinate
+            "summary" (string) -- human readable description of forecast
         }
         "tz_offset" (string) -- Timezone for the coordinate
         "watchers" (number) -- how many users have saved this coordinate
@@ -174,6 +157,7 @@ def fresh_weather(lat, lng, name, stale=None):
             "high": high_s,
             "low": low_s,
             "icon": current["icon"],
+            "summary": current["summary"],
         },
         "comments": [],
         "expires": FireBase.date_to_epoch((datetime.utcnow() +

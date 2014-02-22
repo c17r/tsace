@@ -46,9 +46,10 @@ def get_weather(lat, lng):
         "tz_offset" (string) -- Timezone for the coordinates
         "icon" (string) -- represents current weather conditions
             (e.g. clear-day, partly-cloudy-night, etc)
-        "current" -- current temperature in F
-        "high" -- high temperature for the day in F
-        "low" -- low temperature for the day in F
+        "current" (real) -- current temperature in F
+        "high" (real) -- high temperature for the day in F
+        "low" (real) -- low temperature for the day in F
+        "summary" (string) -- human readable forecast description
     }
     """
     url = "https://api.forecast.io/forecast/%s/%s,%s" % (
@@ -68,5 +69,6 @@ def get_weather(lat, lng):
         "icon": _get_value(data, ["currently", "icon"]),
         "current": _get_value(data, ["currently", "temperature"]),
         "high": _get_value(data, ["daily", "data", 0, "temperatureMax"]),
-        "low": _get_value(data, ["daily", "data", 0, "temperatureMin"])
+        "low": _get_value(data, ["daily", "data", 0, "temperatureMin"]),
+        "summary": _get_value(data, ["currently", "summary"])
     }

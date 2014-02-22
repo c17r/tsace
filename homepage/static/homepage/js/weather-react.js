@@ -7,7 +7,7 @@ var SearchResults = React.createClass({
                <tr>
                    <td className="name" colSpan="3">{this.props.name}</td>
                    <td className="high">H: {this.props.temp.high}</td>
-                   <td className="add" rowSpan="2">
+                   <td className="add" rowSpan="3">
                        <form className="add-city" action="" method="POST">
                            <input name="key" type="hidden" value={this.props.key} />
                            <input type="image" src="/static/homepage/img/plus.png" />
@@ -19,6 +19,10 @@ var SearchResults = React.createClass({
                    <td className="current">{this.props.temp.current}</td>
                    <td className="icon"><img src={"/static/homepage/img/" + this.props.temp.icon + ".png"} /></td>
                    <td className="low">L: {this.props.temp.low}</td>
+               </tr>
+               <tr>
+                   <td colSpan="2">&nbsp;</td>
+                   <td className="summary" colSpan="2">{this.props.temp.summary}</td>
                </tr>
            </table>
            );

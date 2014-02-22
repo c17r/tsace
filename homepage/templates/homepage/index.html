@@ -32,7 +32,7 @@
                         <tr>
                             <td class="name" colspan="3">{{ city.name }}</td>
                             <td class="high">H: {{ city.temp.high }}</td>
-                            <td class="remove" rowspan="2">
+                            <td class="remove" rowspan="3">
                                 <form class="remove-city" action="" method="POST">
                                     {% csrf_token %}
                                     <input name="key" type="hidden" value="{{ city.key }}">
@@ -45,6 +45,10 @@
                             <td class="current">{{ city.temp.current }}</td>
                             <td class="icon"><img src="{% static 'homepage/img/'|add:city.temp.icon|add:'.png' %}"></td>
                             <td class="low">L: {{ city.temp.low }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td class="summary" colspan="2">{{ city.temp.summary }}</td>
                         </tr>
                     </table>
                 {% endfor %}

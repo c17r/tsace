@@ -15,7 +15,7 @@ body { font-size: 62.5%; }
 }
 table td {
     padding-right: 10px;
-
+    
 }
 table td.name {
     font-weight: bold; 
@@ -27,6 +27,9 @@ table td.current {
 table td.high, table td.low {
     font-size: .8em;
     text-align: right;
+}
+table td.summary {
+    padding-left: 15px;
 }
 
 #saved-c table {
