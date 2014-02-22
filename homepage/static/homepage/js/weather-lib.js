@@ -58,26 +58,38 @@ function HandleTime() {
 }
 
 function GetSearchWeather(coord) {
+    $("#search-c").block({ message: null });
+
     $.getJSON("/api/weather/", coord)
         .done(DisplaySearchWeather)
         .fail(DisplayAPIError)
+        .always(function(){
+            $("#search-c").unblock();
+        })
 }
 
 function RemoveCity(form) {
+    var $table = $(form).parents("table");
+    $table.block({ message: null });
+
     $.post("/api/city/remove/", $(form).serialize())
         .done(function(data) {
-            $table = $(form).parents("table");
             $table.fadeOut(function() {
                 $table.remove();
             });
         })
-        .fail(DisplayAPIError);
+        .fail(DisplayAPIError)
+        .always(function() {
+            $table.unblock();
+        });
 }
 
 function AddCity(form) {
+    var $table = $(form).parents("table");
+    $table.block({ message: null });
+
     $.post("/api/city/add/", $(form).serialize())
         .done(function(data) {
-            $table = $(form).parents("table");
             $table.fadeOut(function() {
                 $table.detach();
 
@@ -93,7 +105,10 @@ function AddCity(form) {
             })
 
         })
-        .fail(DisplayAPIError);
+        .fail(DisplayAPIError)
+        .always(function() {
+            $table.unblock();
+        });
 }
 
 function DisplayAPIError(xhr, textStatus, errorThrown) {

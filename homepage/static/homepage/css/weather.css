@@ -4,7 +4,11 @@ body { font-size: 62.5%; }
 #form-c form input { font-size: 1.6em; }
 #form-c form input#city_name { width: 300px; }
 
-#search-c { padding-bottom: 20px; }
+#search-c { 
+    padding-bottom: 20px;
+    min-height: 116px;
+    width: 580px;
+}
 
 #saved-h { font-size: 1.6em; }
 
