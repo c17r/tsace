@@ -30,10 +30,9 @@ table td.current {
 }
 table td.high, table td.low {
     font-size: .8em;
-    text-align: right;
 }
-table td.summary {
-    padding-left: 15px;
+table td.summary, table td.icon {
+    text-align: center;
 }
 
 #saved-c table {

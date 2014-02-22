@@ -22,7 +22,8 @@ var SearchResults = React.createClass({
                </tr>
                <tr>
                    <td colSpan="2">&nbsp;</td>
-                   <td className="summary" colSpan="2">{this.props.temp.summary}</td>
+                   <td className="summary">{this.props.temp.summary}</td>
+                   <td>&nbsp;</td>
                </tr>
            </table>
            );
