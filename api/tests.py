@@ -65,7 +65,7 @@ class APITest(TestCase):
         uid = "test-api-non-user"
         data = api.get_saved_cities(uid)
 
-        self.assertIsNone(data)
+        self.assertTrue(len(data) == 0)
 
     def test_get_saved_cities_no_cities(self):
         test = {
@@ -118,11 +118,6 @@ class APITest(TestCase):
         self.assertEqual(data["temp"]["high"], test_city["temp"]["high"])
         self.assertEqual(data["temp"]["low"], test_city["temp"]["low"])
 
-    def test_add_city_no_user(self):
-        uid = "nobody-home"
-        self.assertRaises(api.MissingUserError,
-                          api.add_city_to_user, uid, "blah")
-
     def test_add_city(self):
         test_user = {
             "temp_method": "F",
@@ -143,11 +138,6 @@ class APITest(TestCase):
             self.assertIn(place, data["places"])
 
         self.assertIn("add-1", data["places"])
-
-    def test_remove_city_no_user(self):
-        uid = "nobody-home"
-        self.assertRaises(api.MissingUserError,
-                          api.remove_city_from_user, uid, "blah")
 
     def test_remove_city(self):
         test_user = {

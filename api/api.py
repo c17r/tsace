@@ -15,14 +15,6 @@ import FireBase
 import ForecastIO
 
 
-class MissingUserError(Exception):
-    """
-    Thrown if an action has been requested for a user that doesn't exist in
-        the database.
-    """
-    pass
-
-
 def _f_to_c(f):
     """
     Converts temperature in Fahrenheit to Celsius
@@ -182,11 +174,16 @@ def get_saved_cities(uid):
     """
     user_data = FireBase.get_user(uid)
     if not user_data:
-        return None
+        _, user_data = create_new_user(uid)
 
     city_data = []
+    invalid_places = []
     for place in user_data["places"]:
         weather = FireBase.get_weather_by_key(place)
+
+        if not weather:
+            invalid_places.append(place)
+            continue
 
         if not check_weather(weather):
             lat = weather["coords"]["latitude"]
@@ -197,10 +194,15 @@ def get_saved_cities(uid):
 
         city_data.append(weather)
 
+    if invalid_places:
+        valid_places = list(set(user_data["places"]) - set(invalid_places))
+        user_data["places"] = valid_places
+        FireBase.put_user(uid, user_data)
+
     return city_data
 
 
-def create_new_user():
+def create_new_user(uid=None):
     """
     Creates a new user in database and returns information.
 
@@ -211,7 +213,8 @@ def create_new_user():
         "Places" (List of String) -- keys for places the users wish to save
     }
     """
-    uid = uuid.uuid4()
+    if not uid:
+        uid = uuid.uuid4()
     data = {
         "temp_method": "F",
         "places": []
@@ -234,9 +237,6 @@ def remove_city_from_user(uid, city_key):
 
     Returns:
     Bool -- True if the users is saved back to the database
-
-    Raises:
-    MissingUserError -- if the uid doesn't exist
     """
     def remove_city(user):
         if city_key in user["places"]:
@@ -257,9 +257,6 @@ def add_city_to_user(uid, city_key):
 
     Returns:
     Bool -- True if the users is saved back to the database
-
-    Raises:
-    MissingUserError -- if the uid doesn't exist
     """
     def add_city(user):
         if city_key not in user["places"]:
@@ -281,13 +278,10 @@ def _func_to_user(uid, func):
 
     Returns:
     Bool -- True if the users is saved back to the database
-
-    Raises:
-    MissingUserError -- if the uid doesn't exist
     """
     user = FireBase.get_user(uid)
     if not user:
-        raise MissingUserError
+        _, user = create_new_user(uid)
 
     user = func(user)
 
