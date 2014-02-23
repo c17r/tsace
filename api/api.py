@@ -8,6 +8,7 @@ Public Methods:
         has saved to their profile
     remove_city_from_user -- Removes specified city from user's profile
     add_city_to_user -- Adds new city to user's profile
+    create_new_user -- Creates a new blank user record in the database
 """
 import uuid
 from datetime import datetime, timedelta

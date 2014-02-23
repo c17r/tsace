@@ -7,6 +7,8 @@ Public Methods:
     epoch_to_date() - UNIX epoch timestamp to datetime object
     get_weather() - Returns weather information for given coordinates
     put_weather() - Stores weather information for given coordinates
+    get_user() - Returns user information for given user id
+    put_user() - Stores user information for given user id
 """
 import json
 from datetime import datetime
