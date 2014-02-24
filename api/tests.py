@@ -1,3 +1,4 @@
+# coding=utf-8
 from datetime import datetime, timedelta
 from django.test import TestCase
 import api
@@ -32,6 +33,32 @@ class APITest(TestCase):
         self.assertEqual(data["temp"]["current"], test["temp"]["current"])
         self.assertEqual(data["temp"]["high"], test["temp"]["high"])
         self.assertEqual(data["temp"]["low"], test["temp"]["low"])
+
+    def test_get_weather_fresh(self):
+        expiration = datetime.utcnow() - timedelta(minutes=15)
+        test = {
+            "watchers": 0,
+            "expires": FireBase.date_to_epoch(expiration),
+            "key": "388048,-770469",
+            "coords": {
+                "latitude": "38.8048",
+                "longitude": "-77.0469"
+            },
+            "temp": {
+                "high": "61°F/16°C",
+                "summary": "Overcast",
+                "icon": "cloudy",
+                "current": "48°F/9°C",
+                "low": "44°F/7°C"
+            },
+            "name": "Alexandria, VA",
+            "tz_offset": "America/New_York"
+        }
+        result = FireBase.put_weather("38.8048", "-77.0469", test)
+        self.assertTrue(result)
+
+        data = api.get_weather("38.8048", "-77.0469", test["name"])
+        self.assertNotEqual(test["expires"], data["expires"])
 
     def test_check_weather_good(self):
         utc = datetime.utcnow()
@@ -117,6 +144,57 @@ class APITest(TestCase):
         self.assertEqual(data["temp"]["current"], test_city["temp"]["current"])
         self.assertEqual(data["temp"]["high"], test_city["temp"]["high"])
         self.assertEqual(data["temp"]["low"], test_city["temp"]["low"])
+
+    def test_get_cities_invalid(self):
+        test_user = {
+            "temp_method": "F",
+            "places": ["invalid-place"]
+        }
+        uid = "test-api-user"
+        result = FireBase.put_user(uid, test_user)
+        self.assertTrue(result)
+
+        data = api.get_saved_cities(uid)
+        self.assertTrue(len(data) == 0)
+
+        data_user = FireBase.get_user(uid)
+        self.assertTrue(len(data_user["places"]) == 0)
+
+    def test_get_cities_stale(self):
+        expiration = datetime.utcnow() - timedelta(minutes=15)
+        test = {
+            "watchers": 0,
+            "expires": FireBase.date_to_epoch(expiration),
+            "key": "388048,-770469",
+            "coords": {
+                "latitude": "38.8048",
+                "longitude": "-77.0469"
+            },
+            "temp": {
+                "high": "61°F/16°C",
+                "summary": "Overcast",
+                "icon": "cloudy",
+                "current": "48°F/9°C",
+                "low": "44°F/7°C"
+            },
+            "name": "Alexandria, VA",
+            "tz_offset": "America/New_York"
+        }
+        result = FireBase.put_weather("38.8048", "-77.0469", test)
+        self.assertTrue(result)
+
+        test_user = {
+            "temp_method": "F",
+            "places": ["388048,-770469"]
+        }
+        uid = "test-api-user"
+        result = FireBase.put_user(uid, test_user)
+        self.assertTrue(result)
+
+        data = api.get_saved_cities(uid)
+        self.assertTrue(len(data) == 1)
+
+        self.assertNotEqual(data[0]["expires"], test["expires"])
 
     def test_add_city(self):
         test_user = {
