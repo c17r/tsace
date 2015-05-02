@@ -29,8 +29,8 @@ function CitiesDropdown($input, cityChangedFunc) {
 
         if (place.geometry) {
             var name = RemoveCountryName(place.formatted_address);
-            var lat = round_place(parseFloat(place.geometry.location.d), 4);
-            var lng = round_place(parseFloat(place.geometry.location.e), 4);
+            var lat = round_place(parseFloat(place.geometry.location.A), 4);
+            var lng = round_place(parseFloat(place.geometry.location.F), 4);
             var coord = {
                 "name": name,
                 "lat": lat,
