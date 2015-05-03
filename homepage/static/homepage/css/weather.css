@@ -12,7 +12,7 @@ body { font-size: 62.5%; }
 
 #saved-h { font-size: 1.6em; }
 
-#search-result, #saved-c table { 
+#search-c table, #saved-c table {
     border: 1px solid #000;
     font-size: 1.6em;
     width: 580px;
@@ -39,10 +39,14 @@ table td.summary, table td.icon {
     margin-bottom: 1px;
 }
 
-table td.remove, table td.add {
+table td.action {
     border-left: 1px solid #000;
     padding: 10px;
     text-align: center;
+}
+
+table td.action img {
+    cursor: pointer;
 }
 
 #attribution { font-size: 1.1em; }

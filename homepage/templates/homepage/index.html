@@ -2,50 +2,6 @@
 {% load staticfiles %}
 
 {% block content %}
-<div id="weather-c">
-    <div id="my-weather-c">
-        <div id="form-c">
-            <form class="search-city">
-                {% csrf_token %}
-                <input id="city_name" type="text" placeholder="Enter a City">
-            </form>
-        </div>
-        <div id="search-c"></div>
+<div id="content"></div>
 
-        <span id="saved-h">Saved Cities:</span>
-        <div id="saved-c">
-            {% if  saved_cities %}
-                {% for city in saved_cities %}
-                    <table>
-                        <tr>
-                            <td class="name" colspan="3">{{ city.name }}</td>
-                            <td class="high">H: {{ city.temp.high }}</td>
-                            <td class="remove" rowspan="3">
-                                <form class="remove-city" action="" method="POST">
-                                    {% csrf_token %}
-                                    <input name="key" type="hidden" value="{{ city.key }}">
-                                    <input type="image" src="{% static 'homepage/img/minus.png' %}">
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="time"><span data-tz-offset="{{ city.tz_offset }}"></span></td>
-                            <td class="current">{{ city.temp.current }}</td>
-                            <td class="icon"><img src="{% static 'homepage/img/'|add:city.temp.icon|add:'.png' %}"></td>
-                            <td class="low">L: {{ city.temp.low }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">&nbsp;</td>
-                            <td class="summary">{{ city.temp.summary }}</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                    </table>
-                {% endfor %}
-            {% endif %}
-        </div>
-    </div>
-    <div id="recent-searches-c">
-
-    </div>
-</div>
 {% endblock %}

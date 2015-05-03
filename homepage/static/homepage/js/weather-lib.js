@@ -1,117 +1,81 @@
 
-function round_place(num, place) {
-    var p = Math.pow(10, place);
-    return Math.round(num * p)/p;
-}
+var lib = (function($, moment) {
 
-function RemoveCountryName(name) {
-    var t = name.split(", ");
-    t.pop();
-    return t.join(", ");
-}
-
-function DisplaySearchWeather(data) {
-    React.renderComponent(
-        SearchResults(data),
-        document.getElementById("search-c")
-    );
-    $("#city_name").val("");
-    var csrf = $("form.search-city").children("input:hidden").clone();
-    $("#search-c").find("form").append(csrf);
-}
-
-function CitiesDropdown($input, cityChangedFunc) {
-    var input = $input[0];
-    var placeholder = input.placeholder;
-
-    function inner_callback() {
-        var place = autocomplete.getPlace();
-
-        if (place.geometry) {
-            var name = RemoveCountryName(place.formatted_address);
-            var lat = round_place(parseFloat(place.geometry.location.A), 4);
-            var lng = round_place(parseFloat(place.geometry.location.F), 4);
-            var coord = {
-                "name": name,
-                "lat": lat,
-                "lng": lng
-            };
-
-            cityChangedFunc(coord);
-        }
-        else
-            input.placeholder = placeholder;
+    function round_place(num, place) {
+        var p = Math.pow(10, place);
+        return Math.round(num * p)/p;
     }
 
-    var autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
-    google.maps.event.addListener(autocomplete, "place_changed", inner_callback);
-}
+    function RemoveCountryName(name) {
+        var t = name.split(", ");
+        t.pop();
+        return t.join(", ");
+    }
 
-function HandleTime() {
-    $("[data-tz-offset]").each(function(i) {
-        var tz = $(this).attr("data-tz-offset");
-        var time = moment().tz(tz).format("hh:mm a DD-MMM");
-        this.innerHTML = time;
-    })
+    function HandleTime(timeId) {
 
-    setTimeout(HandleTime, 500);
-}
-
-function GetSearchWeather(coord) {
-    $("#search-c").block({ message: null });
-
-    $.getJSON("/api/weather/", coord)
-        .done(DisplaySearchWeather)
-        .fail(DisplayAPIError)
-        .always(function(){
-            $("#search-c").unblock();
-        })
-}
-
-function RemoveCity(form) {
-    var $table = $(form).parents("table");
-    $table.block({ message: null });
-
-    $.post("/api/city/remove/", $(form).serialize())
-        .done(function(data) {
-            $table.fadeOut(function() {
-                $table.remove();
+        function action() {
+            $("[data-tz-offset]").each(function(i) {
+                var tz = $(this).attr("data-tz-offset");
+                var time = moment().tz(tz).format("hh:mm a DD-MMM");
+                this.innerHTML = time;
             });
+        }
+
+        if (arguments.length == 0) {
+            return setInterval(action, 500);
+        }
+
+        return clearInterval(timeId);
+    }
+
+    function DisplayAPIError(xhr, textStatus, errorThrown) {
+        var msg = textStatus + "\n" + errorThrown;
+        alert(msg);
+    }
+
+    function RestCall(url, type, data) {
+        function getCookie(name) {
+            var rtn = null;
+            if (!document.cookie || document.cookie == "")
+                return null;
+            document.cookie.split("; ").forEach(function(crumb) {
+                var pieces = crumb.split("=");
+                if (pieces[0] == name)
+                    rtn = pieces[1];
+            });
+            return rtn;
+        }
+
+        var csrf = getCookie("csrftoken");
+
+        return $.ajax({
+            url: url,
+            type: type,
+            dataType: "json",
+            data: data,
+            beforeSend: function(xhr, settings) {
+                if (!this.crossDomain)
+                    xhr.setRequestHeader("X-CSRFToken", csrf)
+            }
         })
-        .fail(DisplayAPIError)
-        .always(function() {
-            $table.unblock();
-        });
-}
+    }
 
-function AddCity(form) {
-    var $table = $(form).parents("table");
-    $table.block({ message: null });
+    return {
+        round_place: round_place,
+        RemoveCountryName: RemoveCountryName,
+        HandleTime: HandleTime,
+        DisplayAPIError: DisplayAPIError,
+        RestCall: RestCall
+    }
+})($, moment);
 
-    $.post("/api/city/add/", $(form).serialize())
-        .done(function(data) {
-            $table.fadeOut(function() {
-                $table.detach();
 
-                $(form).removeClass("add-city").addClass("remove-city");
 
-                var $img = $table.find("input[type=image]");
-                var src = $img.attr("src");
-                src = src.replace("plus", "minus");
-                $img.attr("src", src);
 
-                $("#saved-c").append($table);
-                $table.show();
-            })
 
-        })
-        .fail(DisplayAPIError)
-        .always(function() {
-            $table.unblock();
-        });
-}
 
-function DisplayAPIError(xhr, textStatus, errorThrown) {
-    var msg = textStatus + "\n" + errorThrown;
-    alert(msg);
-}
+
+
+
+

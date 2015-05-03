@@ -131,6 +131,7 @@ def put_user(uid, data):
 
     Returns:
     Bool -- True if the PUT was successful
+    data (Dict) of there user's full record or None
     """
     url = "%s/users/%s.json" % (settings.FIREBASE_URL, uid)
 
@@ -138,4 +139,6 @@ def put_user(uid, data):
 
     r = requests.put(url, data=payload)
 
-    return r.status_code == 200
+    if r.status_code == 200:
+        return True, data
+    return False, None

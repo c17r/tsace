@@ -1,8 +1,14 @@
 from django.conf.urls import patterns, url
+from views import WeatherView, CityView
 
 urlpatterns = patterns(
     "",
-    url(r"^weather/$", "api.views.weather", name="api-weather"),
-    url(r"^city/add/$", "api.views.city_add", name="api-city-add"),
-    url(r"^city/remove/$", "api.views.city_remove", name="api-city-remove"),
+
+    url(r"^weather/(?P<name>[^/]+)/(?P<lat>[\-\d\.]+),(?P<lng>[\-\d\.]+)/$",
+        WeatherView.as_view(),
+        name="weather"),
+
+    url(r"^city/?(?P<key>[^/]+)?/$",
+        CityView.as_view(),
+        name="city"),
 )

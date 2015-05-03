@@ -235,9 +235,7 @@ def remove_city_from_user(uid, city_key):
 
     Returns:
     Bool -- True if the removal was saved to the database
-
-    Returns:
-    Bool -- True if the users is saved back to the database
+    Dict or None -- user's record
     """
     def remove_city(user):
         if city_key in user["places"]:
@@ -258,6 +256,7 @@ def add_city_to_user(uid, city_key):
 
     Returns:
     Bool -- True if the users is saved back to the database
+    Dict or None - user's record
     """
     def add_city(user):
         if city_key not in user["places"]:
@@ -279,6 +278,7 @@ def _func_to_user(uid, func):
 
     Returns:
     Bool -- True if the users is saved back to the database
+    List of weather information (see get_weather()) or None
     """
     user = FireBase.get_user(uid)
     if not user:
