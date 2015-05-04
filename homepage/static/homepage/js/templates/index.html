@@ -1,0 +1,17 @@
+<div id="weather-c">
+    <div id="my-weather-c">
+        <div id="form-c">
+            <search-form placeholder="Enter a City" />
+        </div>
+        <div id="search-c">
+            <weather-entry entry="result" action-caption="add" action="addCity(result)" ng-if="result"  />
+        </div>
+
+        <span id="saved-h">Saved Cities:</span>
+        <div id="saved-c">
+            <weather-entry entry="entry" action-caption="remove" action="removeCity(entry)" ng-repeat="entry in entries" />
+        </div>
+    </div>
+    <div id="recent-searches-c">
+    </div>
+</div>

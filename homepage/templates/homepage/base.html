@@ -1,19 +1,21 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
+<html ng-app="WeatherApp">
 <head>
     <title>My Weather App</title>
     <link rel="stylesheet" href="{% static 'homepage/css/weather.css' %}"/>
     <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
-    <script type="text/javascript" src="//fb.me/react-with-addons-0.13.2.js"></script>
-    <script type="text/javascript" src="//fb.me/JSXTransformer-0.13.2.js"></script>
+
     <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.0.3/moment-timezone.min.js"></script>
-    <script type="text/javascript" src="{% static 'homepage/js/moment-tz-data.min.js' %}"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.66.0-2013.10.09/jquery.blockUI.min.js"></script>
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script type="text/javascript" src="{% static 'homepage/js/moment-timezone-with-data-2010-2020.min.js' %}"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="https://code.angularjs.org/1.3.15/angular-route.js"></script>
+    <script type="text/javascript" src="https://code.angularjs.org/1.3.15/angular-resource.js"></script>
 </head>
-<body>
+<body ng-controller="WeatherController">
 {% block content %}
 {% endblock %}
 <div id="attribution">
@@ -29,6 +31,6 @@
     </p>
 </div>
 <script type="text/javascript" src="{% static 'homepage/js/weather-lib.js' %}"></script>
-<script type="text/jsx" src="{% static 'homepage/js/weather-react.js' %}"></script>
+<script type="text/javascript" src="{% static 'homepage/js/weather-ng.js' %}"></script>
 </body>
 </html>

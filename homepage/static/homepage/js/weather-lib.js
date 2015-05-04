@@ -34,20 +34,21 @@ var lib = (function($, moment) {
         alert(msg);
     }
 
-    function RestCall(url, type, data) {
-        function getCookie(name) {
-            var rtn = null;
-            if (!document.cookie || document.cookie == "")
-                return null;
-            document.cookie.split("; ").forEach(function(crumb) {
-                var pieces = crumb.split("=");
-                if (pieces[0] == name)
-                    rtn = pieces[1];
-            });
-            return rtn;
-        }
+    function GetCookie(name) {
+        var rtn = null;
+        if (!document.cookie || document.cookie == "")
+            return null;
+        document.cookie.split("; ").forEach(function(crumb) {
+            var pieces = crumb.split("=");
+            if (pieces[0] == name)
+                rtn = pieces[1];
+        });
+        return rtn;
+    }
 
-        var csrf = getCookie("csrftoken");
+    function RestCall(url, type, data) {
+
+        var csrf = GetCookie("csrftoken");
 
         return $.ajax({
             url: url,
@@ -66,7 +67,8 @@ var lib = (function($, moment) {
         RemoveCountryName: RemoveCountryName,
         HandleTime: HandleTime,
         DisplayAPIError: DisplayAPIError,
-        RestCall: RestCall
+        RestCall: RestCall,
+        GetCookie: GetCookie
     }
 })($, moment);
 

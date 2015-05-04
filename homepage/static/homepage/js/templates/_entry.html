@@ -1,0 +1,23 @@
+<table>
+    <tr>
+        <td class="name" colSpan="3">[[ entry.name ]]</td>
+        <td class="high">H: [[ entry.temp.high ]]</td>
+        <td class="action" rowSpan="3">
+            <img
+                ng-src="/static/homepage/img/[[actionCaption]].png"
+                ng-click="action(entry)"
+            />
+        </td>
+    </tr>
+    <tr>
+        <td class="time"><span data-tz-offset="[[ entry.tz_offset]]"></span></td>
+        <td class="current">[[ entry.temp.current ]]</td>
+        <td class="icon"><img ng-src="/static/homepage/img/[[ entry.temp.icon ]].png" /></td>
+        <td class="low">L: [[ entry.temp.low ]]</td>
+    </tr>
+    <tr>
+        <td colSpan="2">&nbsp;</td>
+        <td class="summary">[[ entry.temp.summary ]]</td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
