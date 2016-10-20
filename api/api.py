@@ -13,7 +13,7 @@ Public Methods:
 import uuid
 from datetime import datetime, timedelta
 import FireBase
-import ForecastIO
+import Weather
 
 
 def _f_to_c(f):
@@ -124,7 +124,7 @@ def fresh_weather(lat, lng, name, stale=None):
     if stale:
         watchers = stale.get("watchers", 0)
 
-    current = ForecastIO.get_weather(lat, lng)
+    current = Weather.get_weather(lat, lng)
 
     current_f = round(current["current"])
     current_c = round(_f_to_c(current_f))

@@ -1,5 +1,5 @@
 """
-Contains all the methods for interactive with ForecastIO's weather API
+Contains all the methods for interactive with Dark Sky's weather API
 service.
 
 Public Methods:
@@ -52,8 +52,8 @@ def get_weather(lat, lng):
         "summary" (string) -- human readable forecast description
     }
     """
-    url = "https://api.forecast.io/forecast/%s/%s,%s" % (
-        settings.FORECAST_IO_KEY,
+    url = "https://api.darksky.net/forecast/%s/%s,%s" % (
+        settings.WEATHER_API_KEY,
         lat,
         lng
     )

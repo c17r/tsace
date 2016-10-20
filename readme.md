@@ -17,7 +17,7 @@ Weather information is cached for at most 15 minutes.
 	* Django 1.6
 	* Python Requests 2.1.0
 	* Firebase - SaaS provided JSON database
-	* ForecastIO API feed
+	* Dark Sky API feed
 * Frontend
 	* jQuery 1.10
 	* jQuery BlockUI 2.66
