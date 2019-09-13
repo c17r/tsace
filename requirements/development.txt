@@ -1,4 +1,4 @@
 -r default.txt
 
 django-extensions==1.5.2
-Werkzeug==0.10.4
+Werkzeug==0.15.6
