@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 import api
 
@@ -12,10 +12,10 @@ def index(request):
     else:
         data = api.get_saved_cities(uid)
 
-    response = render_to_response(
+    response = render(
+        request,
         "homepage/index.html",
-        {"saved_cities": data},
-        context_instance=RequestContext(request)
+        {"saved_cities": data}
     )
 
     expires = datetime.utcnow() + timedelta(days=180)

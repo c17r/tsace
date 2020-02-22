@@ -1,3 +1,3 @@
-from default import *
+from .default import *
 
 INSTALLED_APPS += ('django_extensions',)

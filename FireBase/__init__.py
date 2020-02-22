@@ -1,1 +1,1 @@
-from firebase import *
+from .firebase import *

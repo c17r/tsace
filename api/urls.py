@@ -1,8 +1,9 @@
-from django.conf.urls import patterns, url
+from django.urls import path
 
-urlpatterns = patterns(
-    "",
-    url(r"^weather/$", "api.views.weather", name="api-weather"),
-    url(r"^city/add/$", "api.views.city_add", name="api-city-add"),
-    url(r"^city/remove/$", "api.views.city_remove", name="api-city-remove"),
+from . import views
+
+urlpatterns = (
+    path('weather/', views.weather, name='api-weather'),
+    path('city/add/', views.city_add, name='api-city-add'),
+    path('city/remove/', views.city_remove, name='api-city-remove'),
 )

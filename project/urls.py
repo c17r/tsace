@@ -1,10 +1,8 @@
-from django.conf.urls import patterns, include, url
+from django.urls import include, path
 
-# from django.contrib import admin
-# admin.autodiscover()
+from homepage.views import index as homepage
 
-urlpatterns = patterns(
-    '',
-    url(r"^$", 'homepage.views.index', name="homepage"),
-    url(r"^api/", include("api.urls")),
+urlpatterns = (
+    path('', homepage, name='homepage'),
+    path('api/', include('api.urls')),
 )
